@@ -16,7 +16,7 @@ To respect Intellectual Property and adhere to the **Terms of Service (ToS)** of
 
 ## Technical Architecture
 
-### 1. The Autonomous Loop (`hi.py`)
+### 1. The Autonomous Loop (`vision_agent.py`)
 This is the primary execution engine. It manages the lifecycle of the agent:
 * **Asynchronous Safety Thread**: Implements a `threading` listener for a hardware "Kill Switch" (ESC key) to ensure immediate script termination.
 * **Chromatic State Detection**: Instead of pixel-matching, the agent uses a custom `average_color` function to calculate the mean RGB value of a Region of Interest (ROI). This method provides resilience against anti-aliasing and minor rendering variances.
@@ -24,14 +24,14 @@ This is the primary execution engine. It manages the lifecycle of the agent:
   $$all(abs(a - b) < \text{threshold} \text{ for } a, b \text{ in zip(screenshot, reference)})$$
 * **Position Restoration**: Captures the initial cursor position (`og_pos`) and returns the mouse to the user after task completion to minimize interference.
 
-### 2. The Capture Utility (`main.py`)
+### 2. The Capture Utility (`capture_utils.py`)
 A low-level utility for generating high-fidelity reference templates:
 * **GDI+ Integration**: Directly interfaces with the Windows Graphics Device Interface via `ctypes.windll.user32.PrintWindow`.
 * **Direct Bitmap Manipulation**: Captures the device context (DC) of a specific window handle (`hwnd`), allowing for standardized screenshots regardless of window focus or scaling.
 
 ## System Workflow
-1. **Calibration**: `main.py` is used to capture the standard UI state.
-2. **Initialization**: `hi.py` standardizes the target window to an $800 \times 600$ coordinate space.
+1. **Calibration**: `vision_agent.py` is used to capture the standard UI state.
+2. **Initialization**: `capture_utils.py` standardizes the target window to an $800 \times 600$ coordinate space.
 3. **Perception**: The agent crops specific UI regions and compares their chromatic profile to reference templates.
 4. **Decision**: If a match is verified (even with positional offsets), the agent dispatches input events.
 5. **Termination**: The loop breaks once a "final state" (e.g., combat completion) is visually detected.
