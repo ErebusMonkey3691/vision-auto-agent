@@ -1,6 +1,11 @@
 # Vision-Driven Autonomous Framework
 ### State-Machine Automation via Chromatic Perception
 
+> **Development Note:** This repository represents a finalized, template-agnostic version 
+> of a vision-based automation tool developed in ~[Aug/2025]. This version has been 
+> specifically refactored to remove proprietary assets and focus on the underlying 
+> computer vision logic and Win32 API integration.
+
 ## Project Overview
 This project implements a non-intrusive autonomous agent designed to interact with graphical user interfaces (GUIs) through **Computer Vision (CV)** and the **Win32 API**. By utilizing real-time screen sampling and RGB color-space analysis, the agent can perceive application states and execute context-aware actions.
 
